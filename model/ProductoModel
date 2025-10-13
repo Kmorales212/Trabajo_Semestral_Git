@@ -1,0 +1,7 @@
+class ProductoModel(){
+
+String Nombre;
+int Precio;
+String Descipcion;
+
+}
