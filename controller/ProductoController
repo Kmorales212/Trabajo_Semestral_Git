@@ -42,4 +42,27 @@ public class ProductoController {
         headers.setLocation(URI.create("/productos/" + id));
         return new ResponseEntity<>(producto, headers, HttpStatus.CREATED);
     }
+    
+        @PutMapping("/{id}")
+    public ResponseEntity<ProductoModel> actualizar(@PathVariable int id, @RequestBody ProductoModel producto) {
+        ProductoModel existente = repo.get(id);
+        if (existente == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        existente.setNombre(producto.getNombre());
+        existente.setPrecio(producto.getPrecio());
+        existente.setDescripcion(producto.getDescripcion());
+        repo.put(id, existente);
+        return ResponseEntity.ok(existente);
+    }
+
+        @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable int id) {
+        ProductoModel removed = repo.remove(id);
+        if (removed == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
 }
